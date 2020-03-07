@@ -20,9 +20,9 @@ public class UserDto {
     @JsonProperty("lastName")
     private String lastName;
 
-    @JsonProperty("cardId")
-    private String cardId;
+    @JsonProperty("cardIdNumber")
+    private String cardIdNumber;
 
-    @JsonProperty("drivingLicense")
-    private String drivingLicense;
+    @JsonProperty("drivingLicenseNumber")
+    private String drivingLicenseNumber;
 }

@@ -1,7 +1,11 @@
 package com.kodilla.carsfrontend.client;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.kodilla.carsfrontend.domain.User;
 import com.kodilla.carsfrontend.domain.UserDto;
+import com.kodilla.carsfrontend.mapper.JsonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -11,7 +15,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.Optional.ofNullable;
 
@@ -19,6 +22,9 @@ import static java.util.Optional.ofNullable;
 public class RestClient {
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private JsonMapper jsonMapper;
 
     public List<UserDto> getAllUsers() {
         try {
@@ -39,6 +45,23 @@ public class RestClient {
             return Arrays.asList(ofNullable(response).orElse(new UserDto[0]));
         } catch (RestClientException e) {
             return new ArrayList<>();
+        }
+    }
+
+    public void addUser(final UserDto userDto) throws JsonProcessingException {
+        try {
+            HttpEntity httpEntity = jsonMapper.mapToJson(userDto);
+            User response = restTemplate.postForObject("http://localhost:8081/v1/users", httpEntity, User.class);
+        } catch (RestClientException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteUser(final Long id) {
+        try {
+            restTemplate.delete("http://localhost:8081/v1/users/" + id);
+        } catch (RestClientException e) {
+            e.printStackTrace();
         }
     }
 }

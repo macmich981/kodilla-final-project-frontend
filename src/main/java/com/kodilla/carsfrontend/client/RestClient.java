@@ -51,7 +51,16 @@ public class RestClient {
     public void addUser(final UserDto userDto) throws JsonProcessingException {
         try {
             HttpEntity httpEntity = jsonMapper.mapToJson(userDto);
-            User response = restTemplate.postForObject("http://localhost:8081/v1/users", httpEntity, User.class);
+            restTemplate.postForObject("http://localhost:8081/v1/users", httpEntity, User.class);
+        } catch (RestClientException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateUser(final UserDto userDto) throws JsonProcessingException {
+        try {
+            HttpEntity httpEntity = jsonMapper.mapToJson(userDto);
+            restTemplate.put("http://localhost:8081/v1/users", httpEntity, User.class);
         } catch (RestClientException e) {
             e.printStackTrace();
         }

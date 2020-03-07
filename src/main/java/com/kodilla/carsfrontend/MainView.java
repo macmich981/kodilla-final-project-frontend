@@ -16,7 +16,8 @@ public class MainView extends VerticalLayout {
     private final TextField filter = new TextField();
     private final RestClient restClient;
     private final UserForm userForm;
-    private Button addNewUser = new Button("Add new user");
+    private final Button addNewUser = new Button("Add new user");
+    private boolean newUser;
 
     public MainView(RestClient restClient) {
         this.restClient = restClient;
@@ -28,6 +29,7 @@ public class MainView extends VerticalLayout {
         grid.setColumns("firstName", "lastName", "cardIdNumber", "drivingLicenseNumber");
 
         addNewUser.addClickListener(e -> {
+            newUser = true;
             grid.asSingleSelect().clear();
             userForm.setUserDto(new UserDto());
         });
@@ -51,5 +53,13 @@ public class MainView extends VerticalLayout {
 
     private void update() {
         grid.setItems(restClient.getUsersByLastName(filter.getValue()));
+    }
+
+    public boolean isNewUser() {
+        return newUser;
+    }
+
+    public void setNewUser(boolean newUser) {
+        this.newUser = newUser;
     }
 }

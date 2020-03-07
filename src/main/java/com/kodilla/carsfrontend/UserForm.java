@@ -34,10 +34,20 @@ public class UserForm extends FormLayout {
 
     private void save() {
         UserDto userDto = binder.getBean();
-        try {
-            restClient.addUser(userDto);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+
+        if (mainView.isNewUser()) {
+            mainView.setNewUser(false);
+            try {
+                restClient.addUser(userDto);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                restClient.updateUser(userDto);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
         }
         mainView.refresh();
         setUserDto(null);

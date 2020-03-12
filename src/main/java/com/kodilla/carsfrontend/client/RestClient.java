@@ -1,7 +1,6 @@
 package com.kodilla.carsfrontend.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.kodilla.carsfrontend.domain.User;
 import com.kodilla.carsfrontend.domain.UserDto;
 import com.kodilla.carsfrontend.mapper.JsonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +50,7 @@ public class RestClient {
     public void addUser(final UserDto userDto) throws JsonProcessingException {
         try {
             HttpEntity httpEntity = jsonMapper.mapToJson(userDto);
-            restTemplate.postForObject("http://localhost:8081/v1/users", httpEntity, User.class);
+            restTemplate.postForObject("http://localhost:8081/v1/users", httpEntity, UserDto.class);
         } catch (RestClientException e) {
             e.printStackTrace();
         }
@@ -60,7 +59,7 @@ public class RestClient {
     public void updateUser(final UserDto userDto) throws JsonProcessingException {
         try {
             HttpEntity httpEntity = jsonMapper.mapToJson(userDto);
-            restTemplate.put("http://localhost:8081/v1/users", httpEntity, User.class);
+            restTemplate.put("http://localhost:8081/v1/users", httpEntity, UserDto.class);
         } catch (RestClientException e) {
             e.printStackTrace();
         }

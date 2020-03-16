@@ -1,6 +1,6 @@
 package com.kodilla.carsfrontend;
 
-import com.kodilla.carsfrontend.client.RestClient;
+import com.kodilla.carsfrontend.client.RestUserClient;
 import com.kodilla.carsfrontend.domain.UserDto;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
@@ -11,17 +11,17 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 
 @Route
-public class MainView extends VerticalLayout {
+public class UserView extends VerticalLayout {
     private final Grid<UserDto> grid = new Grid<>(UserDto.class);
     private final TextField filter = new TextField();
-    private final RestClient restClient;
+    private final RestUserClient restUserClient;
     private final UserForm userForm;
     private final Button addNewUser = new Button("Add new user");
     private boolean newUser;
 
-    public MainView(RestClient restClient) {
-        this.restClient = restClient;
-        userForm = new UserForm(this, restClient);
+    public UserView(RestUserClient restUserClient) {
+        this.restUserClient = restUserClient;
+        userForm = new UserForm(this, restUserClient);
         filter.setPlaceholder("Filter by last name");
         filter.setClearButtonVisible(true);
         filter.setValueChangeMode(ValueChangeMode.EAGER);
@@ -48,11 +48,11 @@ public class MainView extends VerticalLayout {
     }
 
     public void refresh() {
-        grid.setItems(restClient.getAllUsers());
+        grid.setItems(restUserClient.getAllUsers());
     }
 
     private void update() {
-        grid.setItems(restClient.getUsersByLastName(filter.getValue()));
+        grid.setItems(restUserClient.getUsersByLastName(filter.getValue()));
     }
 
     public boolean isNewUser() {

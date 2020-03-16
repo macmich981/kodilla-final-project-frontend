@@ -18,7 +18,7 @@ import java.util.List;
 import static java.util.Optional.ofNullable;
 
 @Component
-public class RestClient {
+public class RestUserClient {
     @Autowired
     private RestTemplate restTemplate;
 

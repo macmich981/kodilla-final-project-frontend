@@ -1,7 +1,7 @@
 package com.kodilla.carsfrontend;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.kodilla.carsfrontend.client.RestClient;
+import com.kodilla.carsfrontend.client.RestUserClient;
 import com.kodilla.carsfrontend.domain.UserDto;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -18,12 +18,12 @@ public class UserForm extends FormLayout {
     private Button save = new Button("Save");
     private Button delete = new Button("Delete");
     private Binder<UserDto> binder = new Binder<>(UserDto.class);
-    private RestClient restClient;
-    private MainView mainView;
+    private RestUserClient restUserClient;
+    private UserView userView;
 
-    public UserForm(MainView mainView, RestClient restClient) {
-        this.mainView = mainView;
-        this.restClient = restClient;
+    public UserForm(UserView userView, RestUserClient restUserClient) {
+        this.userView = userView;
+        this.restUserClient = restUserClient;
         HorizontalLayout buttons = new HorizontalLayout(save, delete);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         add(firstName, lastName, cardIdNumber, drivingLicenseNumber, buttons);
@@ -35,28 +35,28 @@ public class UserForm extends FormLayout {
     private void save() {
         UserDto userDto = binder.getBean();
 
-        if (mainView.isNewUser()) {
-            mainView.setNewUser(false);
+        if (userView.isNewUser()) {
+            userView.setNewUser(false);
             try {
-                restClient.addUser(userDto);
+                restUserClient.addUser(userDto);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
         } else {
             try {
-                restClient.updateUser(userDto);
+                restUserClient.updateUser(userDto);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
         }
-        mainView.refresh();
+        userView.refresh();
         setUserDto(null);
     }
 
     private void delete() {
         UserDto userDto = binder.getBean();
-        restClient.deleteUser(userDto.getId());
-        mainView.refresh();
+        restUserClient.deleteUser(userDto.getId());
+        userView.refresh();
         setUserDto(null);
     }
 

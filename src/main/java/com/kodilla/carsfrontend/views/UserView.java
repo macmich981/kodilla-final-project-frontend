@@ -1,4 +1,4 @@
-package com.kodilla.carsfrontend;
+package com.kodilla.carsfrontend.views;
 
 import com.kodilla.carsfrontend.client.RestUserClient;
 import com.kodilla.carsfrontend.domain.UserDto;

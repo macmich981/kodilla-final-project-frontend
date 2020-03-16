@@ -1,4 +1,4 @@
-package com.kodilla.carsfrontend;
+package com.kodilla.carsfrontend.views;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.kodilla.carsfrontend.client.RestUserClient;
